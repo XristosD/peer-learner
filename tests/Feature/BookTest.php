@@ -37,6 +37,19 @@ describe('Book Model', function () {
         expect($book->slug)->toBe('my-awesome-book');
     });
 
+    it('checks slugs can be duplicated', function () {
+        $user = User::factory()->create();
+        $book1 = Book::factory()->for($user)->create([
+            'title' => 'Duplicate Title',
+        ]);
+        $book2 = Book::factory()->for($user)->create([
+            'title' => 'Duplicate Title',
+        ]);
+
+        expect($book1->slug)->toBe('duplicate-title');
+        expect($book2->slug)->toBe('duplicate-title');
+    });
+
     it('generates an ulid for the book', function () {
         $user = User::factory()->create();
         $book = Book::factory()->for($user)->create();

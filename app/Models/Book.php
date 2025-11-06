@@ -33,7 +33,7 @@ class Book extends Model
      * @var array<string, mixed>
      */
     protected $attributes = [
-        'visibility' => BookVisibility::Private->value,
+        'visibility' => BookVisibility::Private,
     ];
 
     /**
