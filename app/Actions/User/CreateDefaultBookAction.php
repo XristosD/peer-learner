@@ -2,10 +2,11 @@
 
 namespace App\Actions\User;
 
+use App\Enums\BookVisibility;
 use App\Models\Book;
 use App\Models\User;
 
-class CreateDefaultBook
+class CreateDefaultBookAction
 {
     /**
      * Create a default book for the given user.

@@ -2,13 +2,13 @@
 
 namespace App\Observers;
 
-use App\Actions\User\CreateDefaultBook;
+use App\Actions\User\CreateDefaultBookAction;
 use App\Models\User;
 
 class UserObserver
 {
     public function __construct(
-        private readonly CreateDefaultBook $createDefaultBook,
+        private readonly CreateDefaultBookAction $createDefaultBookAction,
     ) {}
 
     /**
@@ -16,6 +16,6 @@ class UserObserver
      */
     public function created(User $user): void
     {
-        $this->createDefaultBook->execute($user);
+        $this->createDefaultBookAction->execute($user);
     }
 }
