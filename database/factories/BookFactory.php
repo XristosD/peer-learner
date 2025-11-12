@@ -20,7 +20,6 @@ class BookFactory extends Factory
     {
         return [
             'title' => fake()->sentence(3),
-            'visibility' => fake()->randomElement(BookVisibility::cases()),
             'user_id' => User::factory(),
         ];
     }
