@@ -45,11 +45,11 @@
     </SidebarHeader>
 
     <SidebarContent>
-        <NavMain items={mainNavItems} />
+        <NavMain />
     </SidebarContent>
 
     <SidebarFooter>
-        <NavFooter items={footerNavItems} class="mt-auto" />
+        <!-- <NavFooter items={footerNavItems} class="mt-auto" /> -->
         <NavUser />
     </SidebarFooter>
 </Sidebar>

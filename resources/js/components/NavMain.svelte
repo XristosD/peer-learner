@@ -1,30 +1,23 @@
 <script lang="ts">
     import { SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-    import type { NavItem } from '@/types';
+    import type { Book, NavItem } from '@/types';
     import { Link, page } from '@inertiajs/svelte';
+    import { show as bookShow } from '@/routes/book';
 
-    interface Props {
-        items: NavItem[];
-    }
-
-    let { items = [] }: Props = $props();
+    const books: Book[] = $derived($page.props.books);
 </script>
 
 <SidebarGroup class="px-2 py-0">
-    <SidebarGroupLabel>Platform</SidebarGroupLabel>
+    <SidebarGroupLabel>Books</SidebarGroupLabel>
     <SidebarMenu>
-        {#each items as item (item.title)}
+        {#each books as book (book.ulid)}
             <SidebarMenuItem>
-                <Link href={item.href} class="block w-full">
-                    <SidebarMenuButton isActive={item.href === $page.url}>
+                <Link href={bookShow.url({ book: book.ulid, slug: book.slug })} class="block w-full">
+                    <SidebarMenuButton isActive={false}>
                         {#snippet tooltipContent()}
-                            {item.title}
+                            {book.title}
                         {/snippet}
-                        {#if item.icon}
-                            {@const Icon = item.icon}
-                            <Icon class="h-4 w-4 shrink-0" />
-                        {/if}
-                        <span>{item.title}</span>
+                        <span>{book.title}</span>
                     </SidebarMenuButton>
                 </Link>
             </SidebarMenuItem>

@@ -36,3 +36,22 @@ export interface User {
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export type BookVisibility = 'public' | 'private';
+
+export type Book = {
+    ulid: string;
+    title: string;
+    slug: string;
+    visibility: BookVisibility;
+    created_at: string;
+    updated_at: string;
+}
+
+export type Note = {
+    ulid: string;
+    body: string;
+    details: string;
+    created_at: string;
+    updated_at: string;
+}
