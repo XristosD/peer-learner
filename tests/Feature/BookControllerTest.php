@@ -143,4 +143,157 @@ describe('BookController', function () {
         );
     });
 
+    it('creates a note for a book with valid data', function () {
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+
+        $noteData = [
+            'body' => 'This is a test note body',
+            'details' => 'These are additional details',
+        ];
+
+        $response = $this->actingAs($user)
+            ->post(route('book.note.create', ['book' => $book->ulid, 'slug' => $book->slug]), $noteData);
+
+        $response->assertRedirect(route('book.show', [
+            'book' => $book->ulid,
+            'slug' => $book->slug,
+        ]));
+
+        $this->assertDatabaseHas('notes', [
+            'book_id' => $book->id,
+            'body' => 'This is a test note body',
+            'details' => 'These are additional details',
+        ]);
+    });
+
+    it('creates a note without optional details', function () {
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+
+        $noteData = [
+            'body' => 'Note without details',
+        ];
+
+        $response = $this->actingAs($user)
+            ->post(route('book.note.create', ['book' => $book->ulid, 'slug' => $book->slug]), $noteData);
+
+        $response->assertRedirect(route('book.show', [
+            'book' => $book->ulid,
+            'slug' => $book->slug,
+        ]));
+
+        $this->assertDatabaseHas('notes', [
+            'book_id' => $book->id,
+            'body' => 'Note without details',
+            'details' => null,
+        ]);
+    });
+
+    it('requires authentication to create a note', function () {
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+
+        $noteData = [
+            'body' => 'This note should not be created',
+        ];
+
+        $response = $this->post(route('book.note.create', ['book' => $book->ulid, 'slug' => $book->slug]), $noteData);
+
+        $response->assertRedirect(route('login'));
+        $this->assertDatabaseMissing('notes', [
+            'body' => 'This note should not be created',
+        ]);
+    });
+
+    it('validates that body is required when creating a note', function () {
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+
+        $noteData = [
+            'details' => 'Details without body',
+        ];
+
+        $response = $this->actingAs($user)
+            ->post(route('book.note.create', ['book' => $book->ulid, 'slug' => $book->slug]), $noteData);
+
+        $response->assertSessionHasErrors('body');
+        $this->assertDatabaseMissing('notes', [
+            'details' => 'Details without body',
+        ]);
+    });
+
+    it('validates that body must be a string when creating a note', function () {
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+
+        $noteData = [
+            'body' => ['not', 'a', 'string'],
+        ];
+
+        $response = $this->actingAs($user)
+            ->post(route('book.note.create', ['book' => $book->ulid, 'slug' => $book->slug]), $noteData);
+
+        $response->assertSessionHasErrors('body');
+    });
+
+    it('validates that details must be a string when creating a note', function () {
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+
+        $noteData = [
+            'body' => 'Valid body',
+            'details' => 12345,
+        ];
+
+        $response = $this->actingAs($user)
+            ->post(route('book.note.create', ['book' => $book->ulid, 'slug' => $book->slug]), $noteData);
+
+        $response->assertSessionHasErrors('details');
+    });
+
+    it('creates a note using the correct book instance', function () {
+        $user = User::factory()->create();
+        $book1 = Book::factory()->for($user)->create();
+        $book2 = Book::factory()->for($user)->create();
+
+        $noteData = [
+            'body' => 'Note for book 1',
+        ];
+
+        $response = $this->actingAs($user)
+            ->post(route('book.note.create', ['book' => $book1->ulid, 'slug' => $book1->slug]), $noteData);
+
+        $response->assertRedirect(route('book.show', [
+            'book' => $book1->ulid,
+            'slug' => $book1->slug,
+        ]));
+
+        $this->assertDatabaseHas('notes', [
+            'book_id' => $book1->id,
+            'body' => 'Note for book 1',
+        ]);
+
+        $this->assertDatabaseMissing('notes', [
+            'book_id' => $book2->id,
+            'body' => 'Note for book 1',
+        ]);
+    });
+
+    it('increments note count for the book after creating a note', function () {
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+
+        $initialCount = $book->notes()->count();
+
+        $noteData = [
+            'body' => 'New note',
+        ];
+
+        $this->actingAs($user)
+            ->post(route('book.note.create', ['book' => $book->ulid, 'slug' => $book->slug]), $noteData);
+
+        expect($book->fresh()->notes()->count())->toBe($initialCount + 1);
+    });
+
 });
