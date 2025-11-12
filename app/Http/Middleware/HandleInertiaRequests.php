@@ -48,7 +48,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
-            'books' => Auth::user()->books()->latest()->get(),
+            'books' => Auth::check() ? Auth::user()->books()->latest()->get() : null,
 
         ];
     }
