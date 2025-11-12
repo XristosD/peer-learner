@@ -14,6 +14,9 @@ Route::get('dashboard', function () {
 
 Route::prefix('book')->group(function () {
     Route::get('{book?}/{slug?}', [BookController::class, 'show'])->middleware(['auth', 'verified'])->name('book.show');
+    Route::prefix('{book}/note')->group(function () {
+        Route::post('', [BookController::class, 'createNote'])->middleware(['auth', 'verified'])->name('book.note.create');
+    });
 });
 
 require __DIR__.'/settings.php';

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\BookNote\CreateNoteAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateNoteRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,8 +20,15 @@ class BookController extends Controller
             return redirect()->route('book.show', [ 'book' => $book->ulid, 'slug' => $book->slug ]);
         }
         return Inertia::render('books/Book', [
-            'notes' => $book->notes()->latest()->get(),
+            'notes' => fn() => $book->notes()->latest()->get(),
             'book' => $book,
         ]);
+    }
+
+    public function createNote(CreateNoteRequest $request, Book $book, CreateNoteAction $action)
+    {
+        $action->execute($book, $request->validated());
+
+        return redirect()->route('book.show', [ 'book' => $book->ulid, 'slug' => $book->slug ]);
     }
 }
