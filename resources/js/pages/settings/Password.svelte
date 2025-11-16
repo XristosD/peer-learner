@@ -11,13 +11,17 @@
     import { type BreadcrumbItem } from '@/types';
     import { Form } from '@inertiajs/svelte';
     import { fade } from 'svelte/transition';
-
-    const breadcrumbItems: BreadcrumbItem[] = [
-        {
-            title: 'Password Settings',
-            href: edit().url,
-        },
-    ];
+    import { setHeaderContext } from '@/lib/utils';
+    
+    setHeaderContext([
+        [
+            {
+                title: 'Password Settings',
+                href: edit().url,
+            },
+        ], 
+        null
+    ]);
 
     let passwordInput = $state(null as unknown as HTMLInputElement);
     let currentPasswordInput = $state(null as unknown as HTMLInputElement);
@@ -27,7 +31,7 @@
     <title>Password Settings</title>
 </svelte:head>
 
-<AppLayout breadcrumbs={breadcrumbItems}>
+<AppLayout>
     <SettingsLayout>
         <div class="space-y-6">
             <HeadingSmall title="Update Password" description="Ensure your account is using a long, random password to stay secure" />

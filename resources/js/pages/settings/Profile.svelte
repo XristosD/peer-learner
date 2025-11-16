@@ -13,6 +13,7 @@
     import { type BreadcrumbItem, type User } from '@/types';
     import { Form, Link, page } from '@inertiajs/svelte';
     import { fade } from 'svelte/transition';
+    import { setHeaderContext } from '@/lib/utils';
 
     interface Props {
         mustVerifyEmail: boolean;
@@ -20,13 +21,16 @@
     }
 
     let { mustVerifyEmail, status }: Props = $props();
-
-    const breadcrumbItems: BreadcrumbItem[] = [
-        {
-            title: 'Profile settings',
-            href: edit().url,
-        },
-    ];
+    
+    setHeaderContext([
+        [
+            {
+                title: 'Profile settings',
+                href: edit().url,
+            },
+        ], 
+        null
+    ]);
 
     const user = $page.props.auth.user as User;
 </script>
@@ -35,7 +39,7 @@
     <title>Profile Settings</title>
 </svelte:head>
 
-<AppLayout breadcrumbs={breadcrumbItems}>
+<AppLayout>
     <SettingsLayout>
         <div class="flex flex-col space-y-6">
             <HeadingSmall title="Profile Information" description="Update your name and email address" />
