@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Book\UpdateBookAction;
+use App\Actions\Book\CreateBookAction;
 use App\Actions\BookNote\CreateNoteAction;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateBookRequest;
 use App\Http\Requests\CreateNoteRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -22,13 +24,20 @@ class BookController extends Controller
         }
         return Inertia::render('books/Book', [
             'notes' => fn() => $book->notes()->latest()->get(),
-            'book' => $book,
+            'book' => fn() =>$book,
         ]);
     }
 
     public function update(UpdateBookRequest $request, Book $book, UpdateBookAction $updateBookAction)
     {
         $updateBookAction->execute($book, $request->validated());
+
+        return redirect()->route('book.show', [ 'book' => $book->ulid, 'slug' => $book->slug ]);
+    }
+
+        public function create(CreateBookRequest $request, CreateBookAction $createBookAction)
+    {
+        $book = $createBookAction->execute($request->validated());
 
         return redirect()->route('book.show', [ 'book' => $book->ulid, 'slug' => $book->slug ]);
     }

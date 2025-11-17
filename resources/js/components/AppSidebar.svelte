@@ -2,12 +2,14 @@
     import NavFooter from '@/components/NavFooter.svelte';
     import NavMain from '@/components/NavMain.svelte';
     import NavUser from '@/components/NavUser.svelte';
-    import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
+    import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
     import { dashboard } from '@/routes';
     import { type NavItem } from '@/types';
     import { Link } from '@inertiajs/svelte';
     import { BookOpen, Folder, LayoutGrid } from 'lucide-svelte';
     import AppLogo from './AppLogo.svelte';
+
+    const sidebar = useSidebar();
 
     const mainNavItems: NavItem[] = [
         {
@@ -45,7 +47,7 @@
     </SidebarHeader>
 
     <SidebarContent>
-        <NavMain />
+        <NavMain {sidebar} />
     </SidebarContent>
 
     <SidebarFooter>
