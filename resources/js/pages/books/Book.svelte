@@ -1,6 +1,5 @@
 <script lang="ts">
-  import EditBook from './EditBook.svelte';
-
+    import EditBook from '@/components/book/EditBook.svelte';
     import HeadingSmall from '@/components/HeadingSmall.svelte';
     import InputError from '@/components/InputError.svelte';
     import PlaceholderPattern from '@/components/PlaceholderPattern.svelte';
