@@ -4,12 +4,14 @@
     import type { Snippet } from 'svelte';
 
     interface Props {
+            breadcrumbs: BreadcrumbItemType[];
+            headerAction?: Snippet<[]> | undefined;
         children?: Snippet;
     }
 
-    let {  children }: Props = $props();
+    let { breadcrumbs, headerAction, children }: Props = $props();
 </script>
 
-<AppLayout>
+<AppLayout {breadcrumbs} {headerAction}>
     {@render children?.()}
 </AppLayout>

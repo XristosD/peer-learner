@@ -5,24 +5,20 @@
 
     import AppLayout from '@/layouts/AppLayout.svelte';
     import SettingsLayout from '@/layouts/settings/Layout.svelte';
-    import { setHeaderContext } from '@/lib/utils';
 
-    setHeaderContext([
-        [
-            {
-                title: 'Appearance settings',
-                href: '/settings/appearance',
-            },
-        ], 
-        null
-    ]);
+    let breadcrumbs: BreadcrumbItem[] = [
+        {
+            title: 'Appearance',
+            href: '/settings/appearance',
+        },
+    ];
 </script>
 
 <svelte:head>
     <title>Appearance Settings</title>
 </svelte:head>
 
-<AppLayout>
+<AppLayout {breadcrumbs}>
     <SettingsLayout>
         <div class="space-y-6">
             <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />

@@ -49,7 +49,7 @@
                 {...BookController.update.form(book)}
                 options={{ 
                     preserveScroll: true,
-                    only: ['book'],
+                    only: ['book', 'books'],
                 }}
                 class="px-2 space-y-4" bind:this={form}
             >

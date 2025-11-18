@@ -6,7 +6,12 @@
     import type { Snippet } from 'svelte';
     import { getHeaderContext } from '@/lib/utils';
 
-    let [breadcrumbs, headerAction] = getHeaderContext();
+    interface Props {
+        breadcrumbs: BreadcrumbItem[];
+        action?: Snippet<[]> | undefined;
+    }
+
+    let { breadcrumbs, action }: Props = $props();
 </script>
 
 <header
@@ -19,9 +24,9 @@
             <Breadcrumbs {breadcrumbs} />
         {/if}
     </div>
-    {#if headerAction !== null}
+    {#if action !== undefined}
         <div class="flex items-center">
-            {@render headerAction()}
+            {@render action()}
         </div>
     {/if}
 </header>

@@ -7,16 +7,18 @@
     import type { Snippet } from 'svelte';
 
     interface Props {
+        breadcrumbs: BreadcrumbItemType[];
+        headerAction?: Snippet<[]> | undefined;
         children?: Snippet;
     }
 
-    let {children }: Props = $props();
+    let {breadcrumbs, headerAction, children }: Props = $props();
 </script>
 
 <AppShell variant="sidebar">
     <AppSidebar />
     <AppContent variant="sidebar" class="overflow-x-hidden">
-        <AppSidebarHeader />
+        <AppSidebarHeader {breadcrumbs} action={headerAction} />
         {@render children?.()}
     </AppContent>
 </AppShell>

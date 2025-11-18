@@ -2,10 +2,7 @@
     import EditBook from '@/components/book/EditBook.svelte';
     import HeadingSmall from '@/components/HeadingSmall.svelte';
     import InputError from '@/components/InputError.svelte';
-    import PlaceholderPattern from '@/components/PlaceholderPattern.svelte';
     import { Button } from '@/components/ui/button';
-    import * as Sheet from "@/components/ui/sheet";
-    import { Input } from '@/components/ui/input';
     import { Textarea } from '@/components/ui/textarea';
     import { Label } from '@/components/ui/label';
     import AppLayout from '@/layouts/AppLayout.svelte';
@@ -14,9 +11,6 @@
     import BookController from '@/actions/App/Http/Controllers/BookController';
     import { fly } from 'svelte/transition';
     import { sineIn } from 'svelte/easing';
-    import { setHeaderContext } from '@/lib/utils';
-    import { Settings } from 'lucide-svelte';
-    import { Toggle } from '@/components/ui/toggle';
 
     interface Props {
         notes: Note[];
@@ -25,22 +19,12 @@
 
     let { notes, book }: Props = $props();
 
-    const breadcrumbs: BreadcrumbItem[] = [
+    const breadcrumbs: BreadcrumbItem[] = $derived([
         {
             title: book.title,
             href: '/book',
         },
-    ];
-
-    setHeaderContext([
-            [
-                {
-                    title: book.title,
-                    href: '/book',
-                },
-            ], 
-            editBook
-        ]);
+    ]);
 </script>
 
 <svelte:head>
@@ -51,7 +35,7 @@
     <EditBook {book}></EditBook>
 {/snippet}
 
-<AppLayout>
+<AppLayout {breadcrumbs} headerAction={editBook}>
     <div class="space-y-4 px-4 pt-4 overflow-x-auto">
         <HeadingSmall title="Add a note" />
         <Form 
