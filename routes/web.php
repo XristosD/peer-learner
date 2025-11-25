@@ -18,6 +18,7 @@ Route::prefix('book')->group(function () {
     Route::put('{book}', [BookController::class, 'update'])->middleware(['auth', 'verified'])->name('book.update');
     Route::prefix('{book}/note')->group(function () {
         Route::post('', [BookController::class, 'createNote'])->middleware(['auth', 'verified'])->name('book.note.create');
+        Route::put('{note}', [BookController::class, 'updateNote'])->middleware(['auth', 'verified'])->name('book.note.update');
     });
 });
 

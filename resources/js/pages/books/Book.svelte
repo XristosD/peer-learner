@@ -12,6 +12,7 @@
     import { fly } from 'svelte/transition';
     import { sineIn } from 'svelte/easing';
     import CreateNote from '@/components/note/CreateNote.svelte';
+    import NoteComponent from '@/components/note/Note.svelte';
 
     interface Props {
         notes: Note[];
@@ -40,10 +41,7 @@
     <div class="space-y-4 px-4 pt-4 overflow-x-auto">
         <CreateNote {book} />
         {#each notes as note (note.ulid)}
-            <div in:fly={{ duration: 500, easing: sineIn, y: -200, opacity: .5 }} class="mb-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-800">
-                <p class="mb-2">{note.body}</p>
-                <p class="">{note.details}</p>
-            </div>
+            <NoteComponent {book} {note} />
         {:else}
             <div class="text-center py-10">
                 <h2 class="text-2xl font-semibold mb-4">No Notes Available</h2>
