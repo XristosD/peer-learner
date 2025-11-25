@@ -40,7 +40,7 @@
             <span class="sr-only">Edit Book</span>
         </button>
     </Sheet.Trigger>
-    <Sheet.Content>
+    <Sheet.Content class="w-full">
         <Sheet.Header>
             <Sheet.Title class="text-sm font-light">Edit <span class="italic">{book.title}</span></Sheet.Title>
         </Sheet.Header>
