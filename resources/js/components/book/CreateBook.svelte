@@ -44,64 +44,63 @@
 
 </script>
 
-    <Sheet.Root onOpenChange={(open) => {
-        form && resetForm();
-    }} 
-    bind:open
-    >
-        <Sheet.Trigger>
-            <button>
-                <CirclePlus class="h-4 w-4" />
-                <span class="sr-only">Create Book</span>
-            </button>
-        </Sheet.Trigger>
-        <Sheet.Content>
-            <Sheet.Close />
-            <Sheet.Header>
-                <Sheet.Title class="text-sm font-light">Create Book</Sheet.Title>
-            </Sheet.Header>
-            <Form
-                {...BookController.create.form()}
-                class="px-2 space-y-4" bind:this={form}
-                resetOnSuccess
-                onSuccess={handleSuccess}
-            >
-                {#snippet children({
-                        errors,
-                        processing,
-                        recentlySuccessful,
-                        reset,
-                    }: {
-                        errors: Record<string, string>;
-                        processing: boolean;
-                        recentlySuccessful: boolean;
-                        reset: (open: boolean) => void;
-                    })}
-                    <div class="grid gap-2">
-                        <Label for="title">Title</Label>
-                        <Input
-                            name="title"
-                            class="mt-1 block w-full"
-                            required
-                            placeholder="Book title..."
-                            defaultValue={book.title}
-                        />
-                        <InputError class="mt-2" message={errors.title} />
+<Sheet.Root onOpenChange={(open) => {
+    form && resetForm();
+}} 
+bind:open
+>
+    <Sheet.Trigger>
+        <button>
+            <CirclePlus class="h-4 w-4" />
+            <span class="sr-only">Create Book</span>
+        </button>
+    </Sheet.Trigger>
+    <Sheet.Content class="w-full">
+        <Sheet.Header>
+            <Sheet.Title class="text-sm font-light">Create Book</Sheet.Title>
+        </Sheet.Header>
+        <Form
+            {...BookController.create.form()}
+            class="px-2 space-y-4" bind:this={form}
+            resetOnSuccess
+            onSuccess={handleSuccess}
+        >
+            {#snippet children({
+                    errors,
+                    processing,
+                    recentlySuccessful,
+                    reset,
+                }: {
+                    errors: Record<string, string>;
+                    processing: boolean;
+                    recentlySuccessful: boolean;
+                    reset: (open: boolean) => void;
+                })}
+                <div class="grid gap-2">
+                    <Label for="title">Title</Label>
+                    <Input
+                        name="title"
+                        class="mt-1 block w-full"
+                        required
+                        placeholder="Book title..."
+                        defaultValue={book.title}
+                    />
+                    <InputError class="mt-2" message={errors.title} />
+                </div>
+                <div class="grid gap-2">
+                    <Label for="visibility">Visibility</Label>
+                    <input type="hidden" name="visibility" value={localVisibility} />
+                    <div class="flex items-center gap-2">
+                        <Toggle pressed={localVisibility === 'public'}  onPressedChange={toggleLocalVisibility}>Public</Toggle>
+                        <Toggle pressed={localVisibility === 'private'}  onPressedChange={toggleLocalVisibility}>Private</Toggle>
                     </div>
-                    <div class="grid gap-2">
-                        <Label for="visibility">Visibility</Label>
-                        <input type="hidden" name="visibility" value={localVisibility} />
-                        <div class="flex items-center gap-2">
-                            <Toggle pressed={localVisibility === 'public'}  onPressedChange={toggleLocalVisibility}>Public</Toggle>
-                            <Toggle pressed={localVisibility === 'private'}  onPressedChange={toggleLocalVisibility}>Private</Toggle>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <Button type="submit" disabled={processing}>Save</Button>
-                        <Button type="button" disabled={processing} onclick={(e: MouseEvent) => open = false}>Close</Button>
-                    </div>
-                {/snippet}
-            </Form>
-        </Sheet.Content>
-    </Sheet.Root>
+                </div>
+                <div class="flex items-center gap-4">
+                    <Button type="submit" disabled={processing}>Save</Button>
+                    <Button type="button" disabled={processing} onclick={(e: MouseEvent) => open = false}>Close</Button>
+                </div>
+            {/snippet}
+        </Form>
+    </Sheet.Content>
+</Sheet.Root>
 
