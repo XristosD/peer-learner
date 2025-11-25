@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\BookNote;
+namespace App\Actions\Note;
 
 use App\Models\Book;
 use App\Models\Note;
