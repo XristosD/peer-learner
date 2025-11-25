@@ -11,6 +11,7 @@
     import BookController from '@/actions/App/Http/Controllers/BookController';
     import { fly } from 'svelte/transition';
     import { sineIn } from 'svelte/easing';
+    import CreateNote from '@/components/note/CreateNote.svelte';
 
     interface Props {
         notes: Note[];
@@ -37,47 +38,7 @@
 
 <AppLayout {breadcrumbs} headerAction={editBook}>
     <div class="space-y-4 px-4 pt-4 overflow-x-auto">
-        <HeadingSmall title="Add a note" />
-        <Form 
-            {...BookController.createNote.form(book)} 
-            options={{ 
-                preserveScroll: true,
-                only: ['notes'],
-             }}
-             resetOnSuccess
-            class="space-y-6"
-        >
-            {#snippet children({
-                errors,
-                processing,
-                recentlySuccessful,
-            }: {
-                errors: Record<string, string>;
-                processing: boolean;
-                recentlySuccessful: boolean;
-            })}
-                <div class="grid gap-2">
-                    <Label for="body">Body</Label>
-                    <Textarea name="body" class="mt-1 block w-full" required placeholder="Note body..."/>
-                    <InputError class="mt-2" message={errors.body} />
-                </div>
-
-                <div class="grid gap-2">
-                    <Label for="details">Details</Label>
-                    <Textarea
-                        name="details"
-                        class="mt-1 block w-full"
-                        placeholder="Note details..."
-                    />
-                    <InputError class="mt-2" message={errors.details} />
-                </div>
-
-
-                <div class="flex items-center gap-4">
-                    <Button type="submit" disabled={processing}>New</Button>
-                </div>
-            {/snippet}
-        </Form> 
+        <CreateNote {book} />
         {#each notes as note (note.ulid)}
             <div in:fly={{ duration: 500, easing: sineIn, y: -200, opacity: .5 }} class="mb-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-800">
                 <p class="mb-2">{note.body}</p>
