@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Actions\Note;
+
 use App\Models\Note;
 
 class UpdateNoteAction

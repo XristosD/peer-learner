@@ -2,7 +2,6 @@
 
 namespace App\Actions\User;
 
-use App\Enums\BookVisibility;
 use App\Models\Book;
 use App\Models\User;
 

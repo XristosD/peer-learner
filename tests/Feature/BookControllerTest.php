@@ -3,7 +3,13 @@
 use App\Models\Book;
 use App\Models\Note;
 use App\Models\User;
-use function Pest\Laravel\{actingAs, get, post, put, assertDatabaseMissing, assertDatabaseHas};
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\assertDatabaseHas;
+use function Pest\Laravel\assertDatabaseMissing;
+use function Pest\Laravel\get;
+use function Pest\Laravel\post;
+use function Pest\Laravel\put;
 
 describe('BookController', function () {
 
@@ -27,7 +33,7 @@ describe('BookController', function () {
         /** @var \App\Models\User $user */
         $user = User::factory()->create();
         $book = Book::factory()->for($user)->create(['title' => 'Test Book']);
-        
+
         $notes = Note::factory()->count(3)->for($book)->create();
 
         $response = actingAs($user)
@@ -47,7 +53,7 @@ describe('BookController', function () {
         /** @var \App\Models\User $user */
         $user = User::factory()->create();
         $book = Book::factory()->for($user)->create();
-        
+
         $oldNote = Note::factory()->for($book)->create(['created_at' => now()->subDays(2)]);
         $newNote = Note::factory()->for($book)->create(['created_at' => now()]);
 
@@ -98,7 +104,7 @@ describe('BookController', function () {
     it('handles multiple books and redirects to the most recent', function () {
         /** @var \App\Models\User $user */
         $user = User::factory()->create();
-        
+
         $book1 = Book::factory()->for($user)->create(['created_at' => now()->subDays(5)]);
         $book2 = Book::factory()->for($user)->create(['created_at' => now()->subDays(2)]);
         $newestBook = $user->books()->latest()->first();

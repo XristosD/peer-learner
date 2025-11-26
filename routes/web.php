@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\BookController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');

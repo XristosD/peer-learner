@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Actions\Book;
+
 use App\Models\Book;
 
 class UpdateBookAction
