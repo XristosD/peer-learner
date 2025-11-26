@@ -46,7 +46,7 @@ export type Book = {
     visibility: BookVisibility;
     created_at: string;
     updated_at: string;
-}
+};
 
 export type Note = {
     ulid: string;
@@ -54,4 +54,4 @@ export type Note = {
     details: string;
     created_at: string;
     updated_at: string;
-}
+};
