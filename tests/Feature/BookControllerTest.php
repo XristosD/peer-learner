@@ -3,9 +3,12 @@
 use App\Models\Book;
 use App\Models\Note;
 use App\Models\User;
-use function Pest\Laravel\{actingAs, get, post, assertDatabaseMissing, assertDatabaseHas};
+use function Pest\Laravel\{actingAs, get, post, put, assertDatabaseMissing, assertDatabaseHas};
 
 describe('BookController', function () {
+
+    // ===== BookController::show() =====
+    // Tests for displaying a book and its notes
 
     it('redirects to the latest book when no book parameter is provided', function () {
         /** @var \App\Models\User $user */
@@ -151,6 +154,17 @@ describe('BookController', function () {
             ->has('notes', 2)
         );
     });
+
+    // ===== BookController::update() =====
+    // Tests for updating a book
+    // (No tests implemented yet)
+
+    // ===== BookController::create() =====
+    // Tests for creating a book
+    // (No tests implemented yet)
+
+    // ===== BookController::createNote() =====
+    // Tests for creating a note within a book
 
     it('creates a note for a book with valid data', function () {
         /** @var \App\Models\User $user */
@@ -310,6 +324,146 @@ describe('BookController', function () {
             ->post(route('book.note.create', ['book' => $book->ulid, 'slug' => $book->slug]), $noteData);
 
         expect($book->fresh()->notes()->count())->toBe($initialCount + 1);
+    });
+
+    // ===== BookController::updateNote() =====
+    // Tests for updating a note within a book
+
+    it('updates a note with valid data', function () {
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+        $note = Note::factory()->for($book)->create(['body' => 'Original body', 'details' => 'Original details']);
+
+        $updatedData = [
+            'body' => 'Updated note body',
+            'details' => 'Updated details',
+        ];
+
+        $response = actingAs($user)
+            ->put(route('book.note.update', ['book' => $book->ulid, 'slug' => $book->slug, 'note' => $note->ulid]), $updatedData);
+
+        $response->assertRedirect(route('book.show', [
+            'book' => $book->ulid,
+            'slug' => $book->slug,
+        ]));
+
+        assertDatabaseHas('notes', [
+            'ulid' => $note->ulid,
+            'body' => 'Updated note body',
+            'details' => 'Updated details',
+        ]);
+    });
+
+    it('updates a note and clears optional details', function () {
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+        $note = Note::factory()->for($book)->create(['body' => 'Original body', 'details' => 'Original details']);
+
+        $updatedData = [
+            'body' => 'Updated body without details',
+            'details' => null,
+        ];
+
+        $response = actingAs($user)
+            ->put(route('book.note.update', ['book' => $book->ulid, 'slug' => $book->slug, 'note' => $note->ulid]), $updatedData);
+
+        $response->assertRedirect();
+
+        assertDatabaseHas('notes', [
+            'ulid' => $note->ulid,
+            'body' => 'Updated body without details',
+            'details' => null,
+        ]);
+    });
+
+    it('requires authentication to update a note', function () {
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+        $note = Note::factory()->for($book)->create();
+
+        $updatedData = [
+            'body' => 'Updated body',
+        ];
+
+        $response = put(route('book.note.update', ['book' => $book->ulid, 'slug' => $book->slug, 'note' => $note->ulid]), $updatedData);
+
+        $response->assertRedirect(route('login'));
+    });
+
+    it('validates that body is required when updating a note', function () {
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+        $note = Note::factory()->for($book)->create(['body' => 'Original body']);
+
+        $updatedData = [
+            'details' => 'Details without body',
+        ];
+
+        $response = actingAs($user)
+            ->put(route('book.note.update', ['book' => $book->ulid, 'slug' => $book->slug, 'note' => $note->ulid]), $updatedData);
+
+        $response->assertSessionHasErrors('body');
+    });
+
+    it('validates that body must be a string when updating a note', function () {
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+        $note = Note::factory()->for($book)->create();
+
+        $updatedData = [
+            'body' => ['not', 'a', 'string'],
+        ];
+
+        $response = actingAs($user)
+            ->put(route('book.note.update', ['book' => $book->ulid, 'slug' => $book->slug, 'note' => $note->ulid]), $updatedData);
+
+        $response->assertSessionHasErrors('body');
+    });
+
+    it('validates that details must be a string when updating a note', function () {
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+        $note = Note::factory()->for($book)->create();
+
+        $updatedData = [
+            'body' => 'Valid body',
+            'details' => 12345,
+        ];
+
+        $response = actingAs($user)
+            ->put(route('book.note.update', ['book' => $book->ulid, 'slug' => $book->slug, 'note' => $note->ulid]), $updatedData);
+
+        $response->assertSessionHasErrors('details');
+    });
+
+    it('updates only the specified note', function () {
+        /** @var \App\Models\User $user */
+        $user = User::factory()->create();
+        $book = Book::factory()->for($user)->create();
+        $note1 = Note::factory()->for($book)->create(['body' => 'Note 1']);
+        $note2 = Note::factory()->for($book)->create(['body' => 'Note 2']);
+
+        $updatedData = [
+            'body' => 'Updated Note 1',
+        ];
+
+        actingAs($user)
+            ->put(route('book.note.update', ['book' => $book->ulid, 'slug' => $book->slug, 'note' => $note1->ulid]), $updatedData);
+
+        assertDatabaseHas('notes', [
+            'ulid' => $note1->ulid,
+            'body' => 'Updated Note 1',
+        ]);
+
+        assertDatabaseHas('notes', [
+            'ulid' => $note2->ulid,
+            'body' => 'Note 2',
+        ]);
     });
 
 });
