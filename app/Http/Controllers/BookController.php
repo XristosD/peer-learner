@@ -39,7 +39,7 @@ class BookController extends Controller
         return redirect()->route('book.show', [ 'book' => $book->ulid, 'slug' => $book->slug ]);
     }
 
-        public function create(CreateBookRequest $request, CreateBookAction $createBookAction)
+    public function create(CreateBookRequest $request, CreateBookAction $createBookAction)
     {
         $book = $createBookAction->execute($request->validated());
 
