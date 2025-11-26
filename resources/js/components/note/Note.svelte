@@ -11,6 +11,7 @@
     import InputError from '@/components/InputError.svelte';
     import { Settings, SquarePen } from 'lucide-svelte';
     import BookController from '@/actions/App/Http/Controllers/BookController';
+    import { onDestroy, onMount } from 'svelte';
 
 
     interface Props {
@@ -20,7 +21,7 @@
 
     let { book, note }: Props = $props();
 
-    let editedNote: Note = $derived({...note});
+    let editedNote: Note = $state(structuredClone(note));
 
     let isEditMode = $state(false);
 
@@ -37,6 +38,19 @@
     function toggleFullOpen() {
         fullOpen = !fullOpen;
     }
+
+    $effect(() => {
+        if (fullOpen) {
+            editedNote = structuredClone(note);
+        }
+    });
+
+    onMount(() => {
+		console.log('the component has mounted');
+	});
+    onDestroy(() => {
+		console.log('the component is being destroyed');
+	});
 </script>
 
 
@@ -76,7 +90,7 @@
                         only: ['notes'],
                         }}
                     resetOnSuccess
-                    onSuccess={() => setFullOpen(false)}
+                    onSuccess={() => isEditMode = false}
                     class="space-y-4"
                 >
                     {#snippet children({
