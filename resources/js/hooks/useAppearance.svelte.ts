@@ -82,10 +82,21 @@ export function useAppearance() {
         updateTheme(value);
     }
 
+    function toggleAppearance() {
+        if (appearance ===  'system' || appearance === null) { 
+            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            updateAppearance(systemTheme === 'dark' ? 'light' : 'dark');
+        }
+        else {
+            updateAppearance(appearance === 'dark' ? 'light' : 'dark');
+        }
+    }
+
     return {
         get appearance() {
             return appearance;
         },
         updateAppearance,
+        toggleAppearance,
     };
 }

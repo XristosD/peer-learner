@@ -8,6 +8,7 @@
     import { Link } from '@inertiajs/svelte';
     import { BookOpen, Folder, LayoutGrid } from 'lucide-svelte';
     import AppLogo from './AppLogo.svelte';
+    import ToggleAppearance from './ToggleAppearance.svelte';
 
     const sidebar = useSidebar();
 
