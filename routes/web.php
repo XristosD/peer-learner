@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\NoteController;
+use App\Models\Note;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,8 +19,10 @@ Route::prefix('book')->group(function () {
     Route::post('', [BookController::class, 'create'])->middleware(['auth', 'verified'])->name('book.create');
     Route::put('{book}', [BookController::class, 'update'])->middleware(['auth', 'verified'])->name('book.update');
     Route::prefix('{book}/note')->group(function () {
-        Route::post('', [BookController::class, 'createNote'])->middleware(['auth', 'verified'])->name('book.note.create');
-        Route::put('{note}', [BookController::class, 'updateNote'])->middleware(['auth', 'verified'])->name('book.note.update');
+        Route::get('{note}', [NoteController::class, 'show'])->middleware(['auth', 'verified'])->name('book.note.show');
+        Route::get('{note}/edit', [NoteController::class, 'edit'])->middleware(['auth', 'verified'])->name('book.note.edit');
+        Route::post('{note}/edit', [NoteController::class, 'update'])->middleware(['auth', 'verified'])->name('book.note.update');
+        Route::post('', [NoteController::class, 'create'])->middleware(['auth', 'verified'])->name('book.note.create');
     });
 });
 

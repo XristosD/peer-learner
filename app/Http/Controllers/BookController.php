@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Book\CreateBookAction;
 use App\Actions\Book\UpdateBookAction;
-use App\Actions\Note\CreateNoteAction as NoteCreateNoteAction;
+use App\Actions\Note\CreateNoteAction;
 use App\Actions\Note\UpdateNoteAction;
 use App\Http\Requests\CreateBookRequest;
 use App\Http\Requests\CreateNoteRequest;
@@ -42,20 +42,6 @@ class BookController extends Controller
     public function create(CreateBookRequest $request, CreateBookAction $createBookAction)
     {
         $book = $createBookAction->execute($request->validated());
-
-        return redirect()->route('book.show', ['book' => $book->ulid, 'slug' => $book->slug]);
-    }
-
-    public function createNote(CreateNoteRequest $request, Book $book, NoteCreateNoteAction $createNoteAction)
-    {
-        $createNoteAction->execute($book, $request->validated());
-
-        return redirect()->route('book.show', ['book' => $book->ulid, 'slug' => $book->slug]);
-    }
-
-    public function updateNote(UpdateNoteRequest $request, Book $book, Note $note, UpdateNoteAction $updateNoteAction)
-    {
-        $updateNoteAction->execute($note, $request->validated());
 
         return redirect()->route('book.show', ['book' => $book->ulid, 'slug' => $book->slug]);
     }

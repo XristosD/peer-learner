@@ -2,7 +2,7 @@
     import { type Book, type Note } from "@/types";
     import HeadingSmall from "../HeadingSmall.svelte";
     import { Form } from "@inertiajs/svelte";
-    import BookController from "@/actions/App/Http/Controllers/BookController";
+    import NoteController from "@/actions/App/Http/Controllers/NoteController";
     import { Label } from '@/components/ui/label';
     import { Textarea } from '@/components/ui/textarea';
     import InputError from '@/components/InputError.svelte';
@@ -47,7 +47,7 @@
 <div>
     <HeadingSmall title="Add a note" />
     <Form 
-        {...BookController.createNote.form(book)} 
+        {...NoteController.create.form(book)} 
         options={{ 
             preserveScroll: true,
             only: ['notes'],

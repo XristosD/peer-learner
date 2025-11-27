@@ -21,7 +21,7 @@
 </script>
 
 <svelte:head>
-    <title>Dashboard</title>
+    <title>{book.title}</title>
 </svelte:head>
 
 {#snippet editBook() }
