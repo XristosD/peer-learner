@@ -23,6 +23,7 @@
         ulid: '',
         body: '',
         details: '',
+        book_ulid: '',
         created_at: '',
         updated_at: '',
     })

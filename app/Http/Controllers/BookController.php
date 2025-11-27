@@ -10,6 +10,8 @@ use App\Http\Requests\CreateBookRequest;
 use App\Http\Requests\CreateNoteRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Http\Requests\UpdateNoteRequest;
+use App\Http\Resources\BookResource;
+use App\Http\Resources\NoteResource;
 use App\Models\Book;
 use App\Models\Note;
 use Illuminate\Http\Request;
@@ -27,8 +29,10 @@ class BookController extends Controller
         }
 
         return Inertia::render('books/Book', [
-            'notes' => fn() => $book->notes()->latest()->get(),
-            'book' => fn() => $book,
+            'notes' => fn() => NoteResource::collection(
+                $book->notes()->latest()->get()
+            )->toArray($request),
+            'book' => fn() => new BookResource($book)->toArray($request),
         ]);
     }
 

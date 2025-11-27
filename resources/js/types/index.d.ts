@@ -52,6 +52,7 @@ export type Note = {
     ulid: string;
     body: string;
     details: string;
+    book_ulid: string;
     created_at: string;
     updated_at: string;
 };

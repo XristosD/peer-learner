@@ -7,6 +7,8 @@ use App\Actions\Note\UpdateNoteAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateNoteRequest;
 use App\Http\Requests\UpdateNoteRequest;
+use App\Http\Resources\BookResource;
+use App\Http\Resources\NoteResource;
 use App\Models\Book;
 use App\Models\Note;
 use Illuminate\Http\Request;
@@ -16,16 +18,16 @@ class NoteController extends Controller
     public function show(Request $request, Book $book, Note $note)
     {
         return inertia('notes/Show', [
-            'book' => fn() => $book,
-            'note' => fn() => $note,
+            'book' => fn() => new BookResource($book)->toArray($request),
+            'note' => fn() => new NoteResource($note)->toArray($request),
         ]);
     }
 
     public function edit(Request $request, Book $book, Note $note)
     {
         return inertia('notes/Edit', [
-            'book' => fn() => $book,
-            'note' => fn() => $note,
+            'book' => fn() => new BookResource($book)->toArray($request),
+            'note' => fn() => new NoteResource($note)->toArray($request),
         ]);
     }
 
