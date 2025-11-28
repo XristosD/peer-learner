@@ -33,9 +33,9 @@
 
 <AppLayout {breadcrumbs} >
     <div class="space-y-4 px-4 pt-4 overflow-x-auto">
-        <p class="mb-2">{note.body}</p>
+        {@html note.body}
         {#if note.details}
-            <p class="">{note.details}</p>
+            {@html note.details}
         {/if}
         <Button variant="ghost">
             <Link href={NoteController.edit([book.ulid, note.ulid])}>

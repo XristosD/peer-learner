@@ -27,8 +27,8 @@
 
 <div in:fly={{ duration: 300, easing: sineIn, y: -100, opacity: .5 }} class="mb-4 p-4 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm bg-white dark:bg-gray-800">
     <div>
-        <div>
-            <p class="mb-2">{note.body}</p>
+        <div class="mb-2">
+            {@html note.body}
         </div>
         <div class="flex items-center justify-end gap-2">
 

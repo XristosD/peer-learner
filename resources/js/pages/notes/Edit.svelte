@@ -6,7 +6,7 @@
     import NoteComponent from '@/components/note/Note.svelte';
     import { Form } from "@inertiajs/svelte";
     import { Label } from '@/components/ui/label';
-    import { Textarea } from '@/components/ui/textarea';
+    import TipexEditor from '@/components/ui/tipex-editor';
     import InputError from '@/components/InputError.svelte';
     import BookController from '@/actions/App/Http/Controllers/BookController';
     import NoteController from '@/actions/App/Http/Controllers/NoteController';
@@ -20,6 +20,8 @@
     }
 
     let { book, note }: Props = $props();
+    let body = $state(note.body);
+    let details = $state(note.details);
     const breadcrumbs: BreadcrumbItem[] = $derived([
         {
             title: book.title,
@@ -63,23 +65,30 @@
 
                 <div class="grid gap-2">
                     <Label hidden for="body">Body</Label>
-                    <Textarea 
-                        value={note.body}
-                        name="body" 
-                        class="mt-1 block w-full" 
-                        required 
+                    <TipexEditor 
+                        body={note.body}
                         placeholder="Note body..."
+                        floating
+                        class="mt-1 block w-full"
+                        onchange={(content) => {
+                            body = content;
+                        }}
                     />
+                    <input type="hidden" name="body" value={body} />
                     <InputError class="mt-2" message={errors.body} />
                 </div>
                 <div class="grid gap-2">
                     <Label hidden for="details">Details</Label>
-                    <Textarea 
-                        value={note.details}
-                        name="details" 
-                        class="mt-1 block w-full" 
+                    <TipexEditor 
+                        body={note.details}
                         placeholder="Note details..."
+                        floating
+                        class="mt-1 block w-full"
+                        onchange={(content) => {
+                            details = content;
+                        }}
                     />
+                    <input type="hidden" name="details" value={details} />
                     <InputError class="mt-2" message={errors.details} />
                 </div>
                 <div class="flex items-center gap-1">

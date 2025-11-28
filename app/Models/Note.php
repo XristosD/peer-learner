@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Mews\Purifier\Casts\CleanHtml;
 
 class Note extends Model
 {
@@ -21,6 +22,11 @@ class Note extends Model
         'body',
         'details',
         'book_id',
+    ];
+
+    protected $casts = [
+        'body' => CleanHtml::class,
+        'detais' => CleanHtml::class,
     ];
 
     /**
