@@ -10,10 +10,6 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::prefix('book')->group(function () {
     Route::get('{book?}/{slug?}', [BookController::class, 'show'])->middleware(['auth', 'verified'])->name('book.show');
     Route::post('', [BookController::class, 'create'])->middleware(['auth', 'verified'])->name('book.create');

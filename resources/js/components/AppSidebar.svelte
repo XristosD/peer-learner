@@ -3,7 +3,7 @@
     import NavMain from '@/components/NavMain.svelte';
     import NavUser from '@/components/NavUser.svelte';
     import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
-    import { dashboard } from '@/routes';
+    import book from '@/routes/book';
     import { type NavItem } from '@/types';
     import { Link } from '@inertiajs/svelte';
     import { BookOpen, Folder, LayoutGrid } from 'lucide-svelte';
@@ -14,8 +14,8 @@
 
     const mainNavItems: NavItem[] = [
         {
-            title: 'Dashboard',
-            href: '/dashboard',
+            title: 'Books',
+            href: book.show.url(),
             icon: LayoutGrid,
         },
     ];
@@ -39,7 +39,7 @@
         <SidebarMenu>
             <SidebarMenuItem>
                 <SidebarMenuButton size="lg">
-                    <Link href={dashboard()}>
+                    <Link href={book.show.url()}>
                         <AppLogo />
                     </Link>
                 </SidebarMenuButton>

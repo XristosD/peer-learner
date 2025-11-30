@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { dashboard, login, register } from '@/routes';
+    import { login, register } from '@/routes';
+    import book from '@/routes/book';
     import { Link, page } from '@inertiajs/svelte';
 
     let user = $derived($page.props.auth.user);
@@ -17,10 +18,10 @@
             {#if user}
                 <Link
                     as="button"
-                    href={dashboard()}
+                    href={book.show.url()}
                     class="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
                 >
-                    Dashboard
+                    Books
                 </Link>
             {:else}
                 <Link

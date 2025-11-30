@@ -10,7 +10,7 @@
     import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
     import UserMenuContent from '@/components/UserMenuContent.svelte';
     import { getInitials } from '@/hooks/useInitials';
-    import { dashboard } from '@/routes';
+    import book from '@/routes/book';
     import type { BreadcrumbItem } from '@/types';
     import { Link, page } from '@inertiajs/svelte';
     import { cva } from 'class-variance-authority';
@@ -40,8 +40,8 @@
 
     const mainNavItems: NavItem[] = [
         {
-            title: 'Dashboard',
-            href: '/dashboard',
+            title: 'Books',
+            href: book.show.url(),
             icon: LayoutGrid,
         },
     ];
@@ -106,7 +106,7 @@
                 </Sheet>
             </div>
 
-            <Link href={dashboard()} class="flex items-center gap-x-2">
+            <Link href={book.show.url()} class="flex items-center gap-x-2">
                 <AppLogo />
             </Link>
 
