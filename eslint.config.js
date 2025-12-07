@@ -19,7 +19,7 @@ export default ts.config(
         },
     },
     {
-        files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
+        files: ['resources/**/*.svelte', 'resources/**/*.svelte.ts', 'resources/**/*.svelte.js'],
         // See more details at: https://typescript-eslint.io/packages/parser/
         languageOptions: {
             parserOptions: {
