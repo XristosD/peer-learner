@@ -12,7 +12,7 @@
         children?: Snippet;
     }
 
-    let {breadcrumbs, headerAction, children }: Props = $props();
+    let { breadcrumbs, headerAction, children }: Props = $props();
 </script>
 
 <AppShell variant="sidebar">

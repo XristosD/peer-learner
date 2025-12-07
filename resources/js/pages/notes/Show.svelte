@@ -6,7 +6,7 @@
     import NoteComponent from '@/components/note/Note.svelte';
     import Button from '@/components/ui/button/button.svelte';
     import NoteController from '@/actions/App/Http/Controllers/NoteController';
-    import { inertia, Link } from '@inertiajs/svelte'
+    import { inertia, Link } from '@inertiajs/svelte';
     import { Settings } from 'lucide-svelte';
 
     interface Props {
@@ -23,7 +23,7 @@
         {
             title: 'Note',
             href: NoteController.show([book.ulid, note.ulid]),
-        }
+        },
     ]);
 </script>
 
@@ -31,8 +31,8 @@
     <title>{book.title}</title>
 </svelte:head>
 
-<AppLayout {breadcrumbs} >
-    <div class="space-y-4 px-4 pt-4 overflow-x-auto">
+<AppLayout {breadcrumbs}>
+    <div class="space-y-4 overflow-x-auto px-4 pt-4">
         {@html note.body}
         {#if note.details}
             {@html note.details}
@@ -42,6 +42,6 @@
                 <Settings class="h-4 w-4" />
                 <span class="sr-only">Open Full</span>
             </Link>
-        </Button> 
+        </Button>
     </div>
 </AppLayout>

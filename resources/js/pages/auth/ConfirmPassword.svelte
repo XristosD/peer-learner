@@ -15,7 +15,7 @@
 
 <AuthLayout title="Confirm your password" description="This is a secure area of the application. Please confirm your password before continuing.">
     <Form {...ConfirmablePasswordController.store.form()} resetOnSuccess={['password']}>
-        {#snippet children({ errors, processing }: { errors: Record<string, string>; processing: boolean })}
+        {#snippet children({ errors, processing }: { errors: Record; processing: boolean })}
             <div class="space-y-6">
                 <div class="grid gap-2">
                     <Label for="password">Password</Label>

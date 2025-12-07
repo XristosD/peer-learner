@@ -20,7 +20,7 @@
     }
 
     let { mustVerifyEmail, status }: Props = $props();
-    
+
     let breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Profile',
@@ -41,15 +41,7 @@
             <HeadingSmall title="Profile Information" description="Update your name and email address" />
 
             <Form {...ProfileController.update.form()} options={{ preserveScroll: true }} class="space-y-6">
-                {#snippet children({
-                    errors,
-                    processing,
-                    recentlySuccessful,
-                }: {
-                    errors: Record<string, string>;
-                    processing: boolean;
-                    recentlySuccessful: boolean;
-                })}
+                {#snippet children({ errors, processing, recentlySuccessful }: { errors: Record; processing: boolean; recentlySuccessful: boolean })}
                     <div class="grid gap-2">
                         <Label for="name">Name</Label>
                         <Input name="name" class="mt-1 block w-full" defaultValue={user.name} required autocomplete="name" placeholder="Full name" />

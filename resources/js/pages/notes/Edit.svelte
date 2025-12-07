@@ -4,7 +4,7 @@
     import { type BreadcrumbItem, type Book, type Note } from '@/types';
     import CreateNote from '@/components/note/CreateNote.svelte';
     import NoteComponent from '@/components/note/Note.svelte';
-    import { Form } from "@inertiajs/svelte";
+    import { Form } from '@inertiajs/svelte';
     import { Label } from '@/components/ui/label';
     import TipexEditor from '@/components/ui/tipex-editor';
     import InputError from '@/components/InputError.svelte';
@@ -12,7 +12,6 @@
     import NoteController from '@/actions/App/Http/Controllers/NoteController';
     import { Button } from '@/components/ui/button';
     import { fade, fly } from 'svelte/transition';
-
 
     interface Props {
         book: Book;
@@ -34,7 +33,7 @@
         {
             title: 'Edit',
             href: NoteController.edit([book.ulid, note.ulid]),
-        }
+        },
     ]);
 </script>
 
@@ -42,30 +41,21 @@
     <title>{book.title}</title>
 </svelte:head>
 
-<AppLayout {breadcrumbs} >
-    <div class="space-y-4 px-4 pt-4 overflow-x-auto">
-        <Form 
+<AppLayout {breadcrumbs}>
+    <div class="space-y-4 overflow-x-auto px-4 pt-4">
+        <Form
             {...NoteController.update.form([book, note])}
-            options={{ 
+            options={{
                 preserveScroll: true,
                 only: ['notes'],
-                }}
+            }}
             resetOnSuccess
             class="space-y-4"
         >
-            {#snippet children({
-                errors,
-                processing,
-                recentlySuccessful,
-            }: {
-                errors: Record<string, string>;
-                processing: boolean;
-                recentlySuccessful: boolean;
-            })}
-
+            {#snippet children({ errors, processing, recentlySuccessful }: { errors: Record; processing: boolean; recentlySuccessful: boolean })}
                 <div class="grid gap-2">
                     <Label hidden for="body">Body</Label>
-                    <TipexEditor 
+                    <TipexEditor
                         body={note.body}
                         placeholder="Note body..."
                         floating
@@ -79,7 +69,7 @@
                 </div>
                 <div class="grid gap-2">
                     <Label hidden for="details">Details</Label>
-                    <TipexEditor 
+                    <TipexEditor
                         body={note.details}
                         placeholder="Note details..."
                         floating
@@ -93,8 +83,8 @@
                 </div>
                 <div class="flex items-center gap-1">
                     <Button type="submit" disabled={processing}>Edit</Button>
-                </div>                        
+                </div>
             {/snippet}
-        </Form> 
+        </Form>
     </div>
 </AppLayout>

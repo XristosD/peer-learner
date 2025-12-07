@@ -4,8 +4,8 @@
     import type { Snippet } from 'svelte';
 
     interface Props {
-            breadcrumbs: BreadcrumbItemType[];
-            headerAction?: Snippet<[]> | undefined;
+        breadcrumbs: BreadcrumbItemType[];
+        headerAction?: Snippet<[]> | undefined;
         children?: Snippet;
     }
 

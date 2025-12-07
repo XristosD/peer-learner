@@ -24,12 +24,12 @@
     <title>{book.title}</title>
 </svelte:head>
 
-{#snippet editBook() }
+{#snippet editBook()}
     <EditBook {book}></EditBook>
 {/snippet}
 
 <AppLayout {breadcrumbs} headerAction={editBook}>
-    <div class="space-y-4 px-4 pt-4 overflow-x-auto">
+    <div class="space-y-4 overflow-x-auto px-4 pt-4">
         <CreateNote {book} />
         {#each notes as note (note.ulid)}
             <NoteComponent {book} {note} />

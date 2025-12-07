@@ -2,7 +2,16 @@
     import NavFooter from '@/components/NavFooter.svelte';
     import NavMain from '@/components/NavMain.svelte';
     import NavUser from '@/components/NavUser.svelte';
-    import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
+    import {
+        Sidebar,
+        SidebarContent,
+        SidebarFooter,
+        SidebarHeader,
+        SidebarMenu,
+        SidebarMenuButton,
+        SidebarMenuItem,
+        useSidebar,
+    } from '@/components/ui/sidebar';
     import book from '@/routes/book';
     import { type NavItem } from '@/types';
     import { Link } from '@inertiajs/svelte';

@@ -1,6 +1,6 @@
 <script lang="ts">
     import InputError from '@/components/InputError.svelte';
-    import * as Sheet from "@/components/ui/sheet";
+    import * as Sheet from '@/components/ui/sheet';
     import { Input } from '@/components/ui/input';
     import { Label } from '@/components/ui/label';
     import { type Book } from '@/types';
@@ -34,11 +34,15 @@
     const resetForm = () => {
         form.resetAndClearErrors();
         localVisibility = book.visibility;
-    }
-
+    };
 </script>
 
-<Sheet.Root onOpenChange={(open) => {form && resetForm()}} bind:open>
+<Sheet.Root
+    onOpenChange={(open) => {
+        form && resetForm();
+    }}
+    bind:open
+>
     <Sheet.Trigger>
         <button>
             <Settings class="h-4 w-4" />
@@ -51,11 +55,12 @@
         </Sheet.Header>
         <Form
             {...BookController.update.form(book)}
-            options={{ 
+            options={{
                 preserveScroll: true,
                 only: ['book', 'books'],
             }}
-            class="px-2 space-y-4" bind:this={form}
+            class="space-y-4 px-2"
+            bind:this={form}
         >
             {#snippet children({
                     errors,
@@ -70,21 +75,15 @@
                 })}
                 <div class="grid gap-2">
                     <Label for="title">Title</Label>
-                    <Input
-                        name="title"
-                        class="mt-1 block w-full"
-                        required
-                        placeholder="Book title..."
-                        defaultValue={book.title}
-                    />
+                    <Input name="title" class="mt-1 block w-full" required placeholder="Book title..." defaultValue={book.title} />
                     <InputError class="mt-2" message={errors.title} />
                 </div>
                 <div class="grid gap-2">
                     <Label for="visibility">Visibility</Label>
                     <input type="hidden" name="visibility" value={localVisibility} />
                     <div class="flex items-center gap-2">
-                        <Toggle pressed={localVisibility === 'public'}  onPressedChange={toggleLocalVisibility}>Public</Toggle>
-                        <Toggle pressed={localVisibility === 'private'}  onPressedChange={toggleLocalVisibility}>Private</Toggle>
+                        <Toggle pressed={localVisibility === 'public'} onPressedChange={toggleLocalVisibility}>Public</Toggle>
+                        <Toggle pressed={localVisibility === 'private'} onPressedChange={toggleLocalVisibility}>Private</Toggle>
                     </div>
                 </div>
                 {#if book.is_default === true}
@@ -94,14 +93,16 @@
                         <Label for="is_default" class="mb-1">Set as Default Book</Label>
                         <input type="hidden" name="is_default" value={Number(localIsDefault)} />
                         <div class="flex items-center gap-2">
-                            <Toggle variant="outline" name="is_default" pressed={localIsDefault} onPressedChange={toggleLocalIsDefault} >{localIsDefault ? 'Yes' : 'No'}</Toggle>
+                            <Toggle variant="outline" name="is_default" pressed={localIsDefault} onPressedChange={toggleLocalIsDefault}
+                                >{localIsDefault ? 'Yes' : 'No'}</Toggle
+                            >
                         </div>
                         <InputError class="mt-2" message={errors.is_default} />
                     </div>
                 {/if}
-                    <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4">
                     <Button type="submit" disabled={processing}>Save</Button>
-                    <Button type="button" disabled={processing} onclick={(e: MouseEvent) => open = false}>Close</Button>
+                    <Button type="button" disabled={processing} onclick={(e: MouseEvent) => (open = false)}>Close</Button>
                 </div>
                 {#if recentlySuccessful}
                     <div class="flex items-center gap-4" in:fade out:fade>
@@ -112,4 +113,3 @@
         </Form>
     </Sheet.Content>
 </Sheet.Root>
-

@@ -30,7 +30,7 @@
 
     <div class="space-y-6">
         <Form {...PasswordResetLinkController.store.form()}>
-            {#snippet children({ errors, processing }: { errors: Record<string, string>; processing: boolean })}
+            {#snippet children({ errors, processing }: { errors: Record; processing: boolean })}
                 <div class="grid gap-2">
                     <Label for="email">Email address</Label>
                     <Input id="email" type="email" name="email" autocomplete="off" autofocus placeholder="email@example.com" />

@@ -12,10 +12,10 @@
 
 <SidebarMenu>
     <SidebarMenuItem>
-        <div class="flex justify-between items-center gap-2 w-full">
+        <div class="flex w-full items-center justify-between gap-2">
             <DropdownMenu>
                 <DropdownMenuTrigger>
-                    <SidebarMenuButton size="lg" class="text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent group">
+                    <SidebarMenuButton size="lg" class="group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent">
                         <UserInfo {user} />
                         <ChevronsUpDown class="ml-auto size-4" />
                     </SidebarMenuButton>

@@ -12,7 +12,7 @@
 </script>
 
 <SidebarGroup class="px-2 py-0">
-    <div class="flex items-center justify-between px-2 mb-2">
+    <div class="mb-2 flex items-center justify-between px-2">
         <SidebarGroupLabel>Books</SidebarGroupLabel>
         <!-- <Button onclick={() => toggle()}>Close</Button> -->
         <CreateBook {sidebar} />

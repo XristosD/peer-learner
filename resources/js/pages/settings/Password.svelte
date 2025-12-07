@@ -11,7 +11,7 @@
     import { type BreadcrumbItem } from '@/types';
     import { Form } from '@inertiajs/svelte';
     import { fade } from 'svelte/transition';
-    
+
     let breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Password',
@@ -48,15 +48,7 @@
                 resetOnError={['password', 'password_confirmation', 'current_password']}
                 class="space-y-6"
             >
-                {#snippet children({
-                    errors,
-                    processing,
-                    recentlySuccessful,
-                }: {
-                    errors: Record<string, string>;
-                    processing: boolean;
-                    recentlySuccessful: boolean;
-                })}
+                {#snippet children({ errors, processing, recentlySuccessful }: { errors: Record; processing: boolean; recentlySuccessful: boolean })}
                     <div class="grid gap-2">
                         <Label for="current_password">Current password</Label>
                         <Input

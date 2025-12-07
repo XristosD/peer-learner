@@ -26,7 +26,7 @@
         transform={(data) => ({ ...data, token, email })}
         resetOnSuccess={['password', 'password_confirmation']}
     >
-        {#snippet children({ errors, processing }: { errors: Record<string, string>; processing: boolean })}
+        {#snippet children({ errors, processing }: { errors: Record; processing: boolean })}
             <div class="grid gap-6">
                 <div class="grid gap-2">
                     <Label for="email">Email</Label>
