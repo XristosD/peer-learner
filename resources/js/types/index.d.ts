@@ -44,6 +44,7 @@ export type Book = {
     title: string;
     slug: string;
     visibility: BookVisibility;
+    is_default: boolean;
     created_at: string;
     updated_at: string;
 };

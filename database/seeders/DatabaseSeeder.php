@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Factories\BookFactory;
 use Database\Factories\NoteFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -19,7 +20,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'user@email.com',
             'password' => 'password',
         ]);
-
-        NoteFactory::new()->count(15)->for($user->books->first())->create();
+        
+        BookFactory::new()->count(25)->for($user)->public()->create()->each(function ($book) {
+            NoteFactory::new()->count(30)->for($book)->create();
+        });
     }
 }

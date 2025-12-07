@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Actions\User\CreateDefaultBookAction;
+use App\Actions\Book\CreateDefaultBookAction;
 use App\Models\User;
 
 class UserObserver

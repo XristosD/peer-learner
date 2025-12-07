@@ -24,6 +24,7 @@ class UpdateBookRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'visibility' => ['required', 'in:public,private'],
+            'is_default' => ['required', 'boolean'],
         ];
     }
 }

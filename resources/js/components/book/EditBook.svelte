@@ -18,10 +18,15 @@
     let { book }: Props = $props();
 
     let localVisibility: string = $state(book.visibility);
+    let localIsDefault: boolean = $state(book.is_default);
     let open = $state(false);
 
     let toggleLocalVisibility = () => {
         localVisibility = localVisibility === 'public' ? 'private' : 'public';
+    };
+
+    let toggleLocalIsDefault = () => {
+        localIsDefault = !localIsDefault;
     };
 
     let form: Form;
@@ -82,7 +87,19 @@
                         <Toggle pressed={localVisibility === 'private'}  onPressedChange={toggleLocalVisibility}>Private</Toggle>
                     </div>
                 </div>
-                <div class="flex items-center gap-4">
+                {#if book.is_default === true}
+                    <p class="text-sm">This book is currently set as your default book.</p>
+                {:else}
+                    <div class="grid gap-2">
+                        <Label for="is_default" class="mb-1">Set as Default Book</Label>
+                        <input type="hidden" name="is_default" value={Number(localIsDefault)} />
+                        <div class="flex items-center gap-2">
+                            <Toggle variant="outline" name="is_default" pressed={localIsDefault} onPressedChange={toggleLocalIsDefault} >{localIsDefault ? 'Yes' : 'No'}</Toggle>
+                        </div>
+                        <InputError class="mt-2" message={errors.is_default} />
+                    </div>
+                {/if}
+                    <div class="flex items-center gap-4">
                     <Button type="submit" disabled={processing}>Save</Button>
                     <Button type="button" disabled={processing} onclick={(e: MouseEvent) => open = false}>Close</Button>
                 </div>

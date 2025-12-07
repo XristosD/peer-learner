@@ -25,6 +25,7 @@ class Book extends Model
         'title',
         'slug',
         'visibility',
+        'is_default',
         'user_id',
     ];
 
@@ -35,6 +36,11 @@ class Book extends Model
      */
     protected $attributes = [
         'visibility' => BookVisibility::Private,
+        'is_default' => false,
+    ];
+
+    protected $casts = [
+        'is_default' => 'boolean',
     ];
 
     /**

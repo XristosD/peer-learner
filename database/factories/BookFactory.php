@@ -43,4 +43,14 @@ class BookFactory extends Factory
             'visibility' => BookVisibility::Private,
         ]);
     }
+
+    /**
+     * Indicate that the book is default.
+     */
+    public function default(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_default' => true,
+        ]);
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Actions\User;
+namespace App\Actions\Book;
 
 use App\Models\Book;
 use App\Models\User;
@@ -15,6 +15,7 @@ class CreateDefaultBookAction
         return Book::create([
             'title' => 'Default Book',
             'user_id' => $user->id,
+            'is_default' => true,
         ]);
     }
 }
