@@ -15,6 +15,9 @@
     }
 
     let { book, note }: Props = $props();
+
+    $inspect(note);
+
     const breadcrumbs: BreadcrumbItem[] = $derived([
         {
             title: book.title,
@@ -34,6 +37,16 @@
 <AppLayout {breadcrumbs}>
     <div class="space-y-4 overflow-x-auto px-4 pt-4">
         {@html note.body}
+        {#if note.tags && note.tags.length > 0}
+            <div class="mb-4 flex flex-wrap gap-2">
+                {#each note.tags as tag}
+                    <span
+                        class="inline-block rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300"
+                        >{tag.title}</span
+                    >
+                {/each}
+            </div>
+        {/if}
         {#if note.details}
             {@html note.details}
         {/if}

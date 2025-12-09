@@ -30,6 +30,18 @@
         <div class="mb-2">
             {@html note.body}
         </div>
+        <div class="mb-2">
+            {#if note.tags && note.tags.length > 0}
+                <div class="flex flex-wrap gap-2">
+                    {#each note.tags as tag}
+                        <span
+                            class="inline-block rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300"
+                            >{tag.title}</span
+                        >
+                    {/each}
+                </div>
+            {/if}
+        </div>
         <div class="flex items-center justify-end gap-2">
             <Button variant="ghost">
                 <Link href={NoteController.show([book.ulid, note.ulid])} class="flex items-center">
