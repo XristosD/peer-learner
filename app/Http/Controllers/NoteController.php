@@ -19,7 +19,7 @@ class NoteController extends Controller
     {
         return inertia('notes/Show', [
             'book' => fn() => new BookResource($book)->toArray($request),
-            'note' => fn() => new NoteResource($note)->toArray($request),
+            'note' => fn() => new NoteResource($note->load('tags'))->toArray($request),
         ]);
     }
 

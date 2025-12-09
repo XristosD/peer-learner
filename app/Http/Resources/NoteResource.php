@@ -19,6 +19,9 @@ class NoteResource extends JsonResource
             'body' => $this->body,
             'details' => $this->details,
             'book_ulid' => $this->book->ulid,
+            'tags' => $this->whenLoaded('tags', function () {
+                return NoteTagsCollection::make($this->tags);
+            }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Mews\Purifier\Casts\CleanHtml;
+use Spatie\Sluggable\HasSlug;
+use Spatie\Sluggable\SlugOptions;
 
-class Note extends Model
+class Tag extends Model
 {
-    /** @use HasFactory<\Database\Factories\NoteFactory> */
-    use HasFactory, HasUlids;
+    /** @use HasFactory<\Database\Factories\TagFactory> */
+    use HasFactory, HasSlug, HasUlids;
 
     /**
      * The attributes that are mass assignable.
@@ -20,14 +20,8 @@ class Note extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'body',
-        'details',
-        'book_id',
-    ];
-
-    protected $casts = [
-        'body' => CleanHtml::class,
-        'detais' => CleanHtml::class,
+        'title',
+        'slug',
     ];
 
     /**
@@ -49,19 +43,23 @@ class Note extends Model
     }
 
     /**
-     * Get the book that owns the note.
+     * Get the options for generating the slug.
      */
-    public function book(): BelongsTo
+    public function getSlugOptions(): SlugOptions
     {
-        return $this->belongsTo(Book::class);
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug')
+            ->allowDuplicateSlugs()
+            ->slugsShouldBeNoLongerThan(20);
     }
 
     /**
-     * Get the tags that belong to this note.
+     * Get the notes that belong to this tag.
      */
-    public function tags(): BelongsToMany
+    public function notes(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'note_tag')
+        return $this->belongsToMany(Note::class, 'note_tag')
             ->withPivot(['book_id', 'order'])
             ->withTimestamps();
     }

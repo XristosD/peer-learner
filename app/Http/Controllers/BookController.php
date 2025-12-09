@@ -30,7 +30,7 @@ class BookController extends Controller
 
         return Inertia::render('books/Book', [
             'notes' => fn() => NoteResource::collection(
-                $book->notes()->latest()->get()
+                $book->notes()->with('tags')->latest()->get()
             )->toArray($request),
             'book' => fn() => new BookResource($book)->toArray($request),
         ]);
