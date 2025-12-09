@@ -12,7 +12,9 @@ export default defineConfig({
             ssr: 'resources/js/ssr.ts',
             refresh: true,
         }),
-        svelte(),
+        svelte({
+            inspector: true,
+        }),
         tailwindcss(),
         wayfinder({
             formVariants: true,
