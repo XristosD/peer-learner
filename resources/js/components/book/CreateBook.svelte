@@ -3,7 +3,7 @@
     import * as Sheet from '@/components/ui/sheet';
     import { Input } from '@/components/ui/input';
     import { Label } from '@/components/ui/label';
-    import { type Book } from '@/types';
+    import { type Book, type Errors } from '@/types';
     import { Form } from '@inertiajs/svelte';
     import { CirclePlus } from 'lucide-svelte';
     import { Toggle } from '@/components/ui/toggle';
@@ -68,7 +68,7 @@
             <p class="mt-1 text-xs text-muted-foreground">Add a new book to your library</p>
         </Sheet.Header>
         <Form {...BookController.create.form()} class="mt-6 space-y-5 p-4" bind:this={form} resetOnSuccess onSuccess={handleSuccess}>
-            {#snippet children({ errors, processing, recentlySuccessful }: { errors: Record; processing: boolean; recentlySuccessful: boolean })}
+            {#snippet children({ errors, processing, recentlySuccessful }: { errors: Errors; processing: boolean; recentlySuccessful: boolean })}
                 <div class="space-y-2">
                     <Label for="title" class="text-sm font-medium">Book Title</Label>
                     <Input

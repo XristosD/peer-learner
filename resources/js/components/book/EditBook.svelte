@@ -3,7 +3,7 @@
     import * as Sheet from '@/components/ui/sheet';
     import { Input } from '@/components/ui/input';
     import { Label } from '@/components/ui/label';
-    import { type Book } from '@/types';
+    import { type Errors, type Book } from '@/types';
     import { Form } from '@inertiajs/svelte';
     import { Settings } from 'lucide-svelte';
     import { Toggle } from '@/components/ui/toggle';
@@ -66,7 +66,7 @@
             class="mt-6 space-y-5 p-4"
             bind:this={form}
         >
-            {#snippet children({ errors, processing, recentlySuccessful }: { errors: Record; processing: boolean; recentlySuccessful: boolean })}
+            {#snippet children({ errors, processing, recentlySuccessful }: { errors: Errors; processing: boolean; recentlySuccessful: boolean })}
                 <div class="space-y-2">
                     <Label for="title" class="text-sm font-medium">Book Title</Label>
                     <Input id="title" name="title" class="h-9" required placeholder="Book title..." defaultValue={book.title} disabled={processing} />

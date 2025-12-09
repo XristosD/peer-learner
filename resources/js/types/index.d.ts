@@ -57,3 +57,6 @@ export type Note = {
     created_at: string;
     updated_at: string;
 };
+
+export type Errors = Record<string, string>;
+ 
