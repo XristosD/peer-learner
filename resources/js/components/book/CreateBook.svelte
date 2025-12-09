@@ -23,15 +23,15 @@
         updated_at: '',
     };
 
-    let localVisibility: string = $state(book.visibility);
-    let localIsDefault: boolean = $state(book.is_default);
+    let localVisibility = $state(book.visibility);
+    let localIsDefault = $state(book.is_default);
     let open = $state(false);
 
-    let toggleLocalVisibility = () => {
+    const toggleLocalVisibility = () => {
         localVisibility = localVisibility === 'public' ? 'private' : 'public';
     };
 
-    let toggleLocalIsDefault = () => {
+    const toggleLocalIsDefault = () => {
         localIsDefault = !localIsDefault;
     };
 
@@ -40,6 +40,7 @@
     const resetForm = () => {
         form.resetAndClearErrors();
         localVisibility = book.visibility;
+        localIsDefault = book.is_default;
     };
 
     const handleSuccess = () => {
@@ -50,58 +51,93 @@
 </script>
 
 <Sheet.Root
-    onOpenChange={(open) => {
-        form && resetForm();
+    onOpenChange={(isOpen) => {
+        if (!isOpen && form) resetForm();
     }}
     bind:open
 >
     <Sheet.Trigger>
-        <button>
+        <button class="transition-transform hover:scale-110">
             <CirclePlus class="h-4 w-4" />
             <span class="sr-only">Create Book</span>
         </button>
     </Sheet.Trigger>
-    <Sheet.Content class="w-full">
+    <Sheet.Content class="w-full overflow-y-auto">
         <Sheet.Header>
-            <Sheet.Title class="text-sm font-light">Create Book</Sheet.Title>
+            <Sheet.Title class="text-lg font-medium">Create Book</Sheet.Title>
+            <p class="mt-1 text-xs text-muted-foreground">Add a new book to your library</p>
         </Sheet.Header>
-        <Form {...BookController.create.form()} class="space-y-4 px-2" bind:this={form} resetOnSuccess onSuccess={handleSuccess}>
-            {#snippet children({
-                    errors,
-                    processing,
-                    recentlySuccessful,
-                    reset,
-                }: {
-                    errors: Record<string, string>;
-                    processing: boolean;
-                    recentlySuccessful: boolean;
-                    reset: (open: boolean) => void;
-                })}
-                <div class="grid gap-2">
-                    <Label for="title">Title</Label>
-                    <Input name="title" class="mt-1 block w-full" required placeholder="Book title..." defaultValue={book.title} />
-                    <InputError class="mt-2" message={errors.title} />
+        <Form {...BookController.create.form()} class="mt-6 space-y-5 p-4" bind:this={form} resetOnSuccess onSuccess={handleSuccess}>
+            {#snippet children({ errors, processing, recentlySuccessful }: { errors: Record; processing: boolean; recentlySuccessful: boolean })}
+                <div class="space-y-2">
+                    <Label for="title" class="text-sm font-medium">Book Title</Label>
+                    <Input
+                        id="title"
+                        name="title"
+                        class="h-9"
+                        required
+                        placeholder="Enter book title..."
+                        defaultValue={book.title}
+                        disabled={processing}
+                    />
+                    <InputError class="mt-1 text-xs" message={errors.title} />
                 </div>
-                <div class="grid gap-2">
-                    <Label for="visibility">Visibility</Label>
+
+                <div class="space-y-2">
+                    <Label class="text-sm font-medium">Visibility</Label>
+                    <p class="text-xs text-muted-foreground">Choose who can access this book</p>
                     <input type="hidden" name="visibility" value={localVisibility} />
-                    <div class="flex items-center gap-2">
-                        <Toggle variant="outline" pressed={localVisibility === 'public'} onPressedChange={toggleLocalVisibility}>Public</Toggle>
-                        <Toggle variant="outline" pressed={localVisibility === 'private'} onPressedChange={toggleLocalVisibility}>Private</Toggle>
-                    </div>
-                </div>
-                <div class="grid gap-2">
-                    <Label for="is_default" class="mb-1">Set as Default Book</Label>
-                    <input type="hidden" name="is_default" value={Number(localIsDefault)} />
-                    <div class="flex items-center gap-2">
-                        <Toggle variant="outline" name="is_default" pressed={localIsDefault} onPressedChange={toggleLocalIsDefault}
-                            >{localIsDefault ? 'Yes' : 'No'}</Toggle
+                    <div class="flex gap-2">
+                        <Toggle
+                            variant="outline"
+                            pressed={localVisibility === 'public'}
+                            onPressedChange={toggleLocalVisibility}
+                            disabled={processing}
+                            class="flex-1"
                         >
+                            <span class="text-sm">Public</span>
+                        </Toggle>
+                        <Toggle
+                            variant="outline"
+                            pressed={localVisibility === 'private'}
+                            onPressedChange={toggleLocalVisibility}
+                            disabled={processing}
+                            class="flex-1"
+                        >
+                            <span class="text-sm">Private</span>
+                        </Toggle>
                     </div>
                 </div>
-                <div class="flex items-center gap-4">
-                    <Button type="submit" disabled={processing}>Save</Button>
-                    <Button type="button" disabled={processing} onclick={(e: MouseEvent) => (open = false)}>Close</Button>
+
+                <div class="space-y-2">
+                    <Label class="text-sm font-medium">Default Book</Label>
+                    <p class="text-xs text-muted-foreground">Make this your default book for new notes</p>
+                    <input type="hidden" name="is_default" value={Number(localIsDefault)} />
+                    <Toggle
+                        variant="outline"
+                        pressed={localIsDefault}
+                        onPressedChange={toggleLocalIsDefault}
+                        disabled={processing}
+                        class="w-full justify-start"
+                    >
+                        <span class="text-sm">{localIsDefault ? 'Yes, set as default' : 'No, keep as regular'}</span>
+                    </Toggle>
+                </div>
+
+                {#if recentlySuccessful}
+                    <div
+                        class="rounded bg-green-50 px-3 py-2 text-xs text-green-600 dark:bg-green-950/30 dark:text-green-500"
+                        transition:fade={{ duration: 200 }}
+                    >
+                        ✓ Book created successfully
+                    </div>
+                {/if}
+
+                <div class="flex gap-2 pt-2">
+                    <Button type="submit" disabled={processing} class="flex-1">
+                        {processing ? 'Creating...' : 'Create Book'}
+                    </Button>
+                    <Button type="button" variant="outline" disabled={processing} onclick={() => (open = false)}>Close</Button>
                 </div>
             {/snippet}
         </Form>
