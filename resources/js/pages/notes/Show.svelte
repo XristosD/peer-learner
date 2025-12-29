@@ -16,7 +16,7 @@
 
     let { book, note }: Props = $props();
 
-    $inspect(note);
+    // $inspect(note);
 
     const breadcrumbs: BreadcrumbItem[] = $derived([
         {
@@ -39,7 +39,7 @@
         {@html note.body}
         {#if note.tags && note.tags.length > 0}
             <div class="mb-4 flex flex-wrap gap-2">
-                {#each note.tags as tag}
+                {#each note.tags.sort((a, b) => a.order - b.order) as tag}
                     <span
                         class="inline-block rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-300"
                         >{tag.title}</span
