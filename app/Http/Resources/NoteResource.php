@@ -14,16 +14,19 @@ class NoteResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'ulid' => $this->ulid,
             'body' => $this->body,
             'details' => $this->details,
             'book_ulid' => $this->book->ulid,
-            'tags' => $this->whenLoaded('tags', function () {
-                return NoteTagsCollection::make($this->tags);
-            }),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
+
+        if($this->resource->relationLoaded('tags')) {
+            $data['tags'] = NoteTagResourse::collection($this->tags);
+        }
+
+        return $data;
     }
 }
