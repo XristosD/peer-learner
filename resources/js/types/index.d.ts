@@ -49,10 +49,19 @@ export type Book = {
     updated_at: string;
 };
 
-export type NoteTag = {
+export type Tag = {
     ulid: string;
     title: string;
     slug: string;
+}
+
+export type NoteTag = Tag & {
+    order: number;
+}
+
+export type UpdatedTags = {
+    ulid?: string;
+    title?: string;
     order: number;
 }
 

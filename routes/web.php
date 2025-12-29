@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\NoteController;
+use App\Http\Controllers\TagController;
 use App\Models\Note;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,6 +22,8 @@ Route::prefix('book')->group(function () {
         Route::post('', [NoteController::class, 'create'])->middleware(['auth', 'verified'])->name('book.note.create');
     });
 });
+
+Route::get('/tags/search', [TagController::class, 'search'])->middleware(['auth', 'verified'])->name('tags.search');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
