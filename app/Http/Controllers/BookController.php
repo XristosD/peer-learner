@@ -4,16 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Actions\Book\CreateBookAction;
 use App\Actions\Book\UpdateBookAction;
-use App\Actions\Note\CreateNoteAction;
-use App\Actions\Note\UpdateNoteAction;
 use App\Http\Requests\CreateBookRequest;
-use App\Http\Requests\CreateNoteRequest;
 use App\Http\Requests\UpdateBookRequest;
-use App\Http\Requests\UpdateNoteRequest;
 use App\Http\Resources\BookResource;
 use App\Http\Resources\NoteResource;
 use App\Models\Book;
-use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;

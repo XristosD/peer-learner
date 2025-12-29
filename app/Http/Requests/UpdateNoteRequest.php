@@ -2,10 +2,15 @@
 
 namespace App\Http\Requests;
 
+use App\DTOs\NoteDataDTO;
+use App\Http\Requests\Traits\HasTagDTOs;
+use App\Rules\ValidateTagsArray;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateNoteRequest extends FormRequest
 {
+    use HasTagDTOs;
+    
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -24,6 +29,20 @@ class UpdateNoteRequest extends FormRequest
         return [
             'body' => 'required|string',
             'details' => 'nullable|string',
+            'tags' => [new ValidateTagsArray],
         ];
+    }
+
+    public function getNoteDataDTO(): NoteDataDTO
+    {
+        $data = new NoteDataDTO();
+
+        $data = $data->setBody($this->input('body'));
+
+        if ($this->filled('details')) {
+            $data = $data->setDetails($this->input('details'));
+        }
+
+        return $data;
     }
 }
