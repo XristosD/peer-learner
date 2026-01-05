@@ -28,6 +28,8 @@ class Note extends Model
     protected $casts = [
         'body' => CleanHtml::class,
         'detais' => CleanHtml::class,
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
     ];
 
     /**
