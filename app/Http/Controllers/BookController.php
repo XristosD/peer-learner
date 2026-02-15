@@ -28,6 +28,10 @@ class BookController extends Controller
                 $book->notes()->with('tags')->latest()->get()
             )->toArray($request),
             'book' => fn() => new BookResource($book)->toArray($request),
+            // 'dateFilter' => [
+            //     'from' => '2025-06-09',
+            //     'to' => '2025-06-09',
+            // ]
         ]);
     }
 
